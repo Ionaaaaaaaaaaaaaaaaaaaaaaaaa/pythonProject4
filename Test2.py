@@ -1,0 +1,5 @@
+x,y,z = input('Enter ').split(',')
+x = float(x)
+y = float(y)
+z = float(z)
+print(x,y,z)
