@@ -144,6 +144,8 @@ def Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save):
                         #print ([defdict[keys[i]] for i in range (len(keys))])
                         m = pd.concat([defdict[keys[i]] for i in range (len(keys))])
                         m.to_csv(dir + defSizename + '_' + str(Ftime) + '_' + str(time1) + '.csv')
+                        n = pd.concat([defdict_2[keys_2[i]] for i in range(len(keys_2))])
+                        n.to_csv(dir + defectsName + '_' + str(Ftime) + '_' + str(time1) + '.csv')
                     break
                 #print('step_', time)
             continue
