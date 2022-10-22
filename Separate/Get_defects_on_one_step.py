@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 from scipy import stats
 from sklearn.metrics import r2_score
 
-dir = 'D:\MUSEN Materials\Bigmodeldata\Altest\_'
+dir = input('Please enter the directory where to save files ')
 defectsName = input('Please enter the name of the file where to save defects ')
 defSizename = input('Please enter the name of the file where to save info (Size, coordinate of the center) about defects ')
 
