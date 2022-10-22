@@ -1,9 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-from scipy import stats
-from sklearn.metrics import r2_score
+
 
 dir = input('Please enter the directory where to save files ')
 defectsName = input('Please enter the name of the file where to save defects ')
