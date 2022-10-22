@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import pickle
 
 
-dir = input('Please enter the directory where to save files ')
-defectsName = input('Please enter the name of the file where to save defects ')
-defSizename = input('Please enter the name of the file where to save info (Size, coordinate of the center) about defects ')
+dir = input('Please enter the directory where to save files ') + '\_'
+defectsName = 'defects'
+defSizename = 'defsize'
 
-coordTname = input('Please enter the location of the file with Broke bonds ')
+coordTname = input('Please enter the location of the file with Broken bonds ')
 coordT = pd.read_csv(coordTname, header=None)
 coordT.drop([0], axis=0, inplace=True)
 coordT.set_index(0, drop=False, inplace=True)
@@ -36,6 +36,8 @@ def Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save):
         coordT = coordT[coordT[1] <= Ftime]
         time = 0
         time1 = 0
+        defectsdict = {}
+        defsizedict = {}
         while time <= Ftime:
             time1 += step_save
             #print(time1)
@@ -146,7 +148,12 @@ def Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save):
                         m.to_csv(dir + defSizename + '_' + str(Ftime) + '_' + str(time1) + '.csv')
                         n = pd.concat([defdict_2[keys_2[i]] for i in range(len(keys_2))])
                         n.to_csv(dir + defectsName + '_' + str(Ftime) + '_' + str(time1) + '.csv')
+
+                        defectsdict.update({time1:n})
+                        defsizedict.update({time1: m})
                     break
-                #print('step_', time)
             continue
+        pickle.dump(defectsdict, open(dir + 'defectsdict.p', 'wb'))
+        pickle.dump(defsizedict, open(dir + 'defsizedict.p', 'wb'))
 defects = Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save)
+print('end')
