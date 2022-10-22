@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 dir = input('Please enter the directory where to save files ') + '\_'
@@ -144,10 +143,6 @@ while Higher_border <= 10:
                             # print (defdict.keys())
                             keys = np.array([i for i in defdict.keys()])
                             keys_2 = np.array([i for i in defdict_2.keys()])
-                            # print(defdict[keys[0]])
-                            # print (defdict[keys[1]])
-                            # print ([defdict[keys[i]] for i in range (len(keys))])
-                            # print ([defdict[keys[i]] for i in range (len(keys))])
                             m = pd.concat([defdict[keys[i]] for i in range(len(keys))])
                             n = pd.concat([defdict_2[keys_2[i]] for i in range(len(keys_2))])
                             m.to_csv(dir + defSizename + '_' + str(Ftime) + '_' + str(time1) + '.csv')
