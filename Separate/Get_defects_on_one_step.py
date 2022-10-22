@@ -90,7 +90,7 @@ for i in defects.keys():
 np.save(dir + defectsName + str(Ftime) + '.npy', defects)
 defectsdf = pd.DataFrame.from_dict(defects, orient='index')
 defectsdf.to_csv(dir + defectsName + str(Ftime) + '.csv')
-
+defectsdf.to_csv(dir + defectsName + str(Ftime) + '.csv')
 used = []
 Rad = {}
 for i in defects.keys():
