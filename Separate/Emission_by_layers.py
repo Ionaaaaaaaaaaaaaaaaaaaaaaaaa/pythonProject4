@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+import pickle
 
 dir = input('Please enter the directory where to save files ') + '\_'
 defectsName = input('Please enter the name of the file where to save defects ')
@@ -36,6 +36,8 @@ Higher_border = lower_border + LayerThickness
 while Higher_border <= 10:
     coordTL = coordT[(coordT[4] <= Higher_border)&(coordT[4] >= lower_border)]
     print(coordTL)
+    defectsdict = {}
+    defsizedict = {}
     print('Layer------------------------>',lower_border)
     def Get_defects_loop(coordTL, Ftime, r, defSizename, defectsName, step, step_save):
             coordTL = coordTL[coordTL[1] <= Ftime]
@@ -147,12 +149,12 @@ while Higher_border <= 10:
                             n = pd.concat([defdict_2[keys_2[i]] for i in range(len(keys_2))])
                             m.to_csv(dir + defSizename + '_' + str(Ftime) + '_' + str(time1) + '.csv')
                             n.to_csv(dir + defectsName + '_' + str(Ftime) + '_' + str(time1) + '.csv')
+                        defectsdict.update({time1: n})
+                        defsizedict.update({time1: m})
                         break
-                    # print('step_', time)
                 continue
-
-
-
+            pickle.dump(defectsdict, open(dir + 'layer_' + str(lower_border) + '_' + str(Higher_border) + '_' + 'defectsdict.p', 'wb'))
+            pickle.dump(defsizedict, open(dir + 'layer_' + str(lower_border) + '_' + str(Higher_border) + '_' + 'defsizedict.p', 'wb'))
     defects = Get_defects_loop(coordT, Ftime, r, defSizename, defectsName, step, step_save)
     lower_border += Layerstep
     Higher_border = lower_border + LayerThickness

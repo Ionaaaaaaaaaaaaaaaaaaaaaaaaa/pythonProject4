@@ -7,3 +7,9 @@ Anchoice = input()
 
 if Anchoice == 'em':
     import EmAnalysis
+if Anchoice == 'def1':
+    import DefAnalysis
+if Anchoice == 'def2':
+    import DefMultiAnalysis
+if Anchoice == 'embl':
+    import Emission_by_LayersAnalysis

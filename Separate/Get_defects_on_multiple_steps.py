@@ -1,11 +1,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
-
-dir = input('Please enter the directory where to save files ')
-defectsName = input('Please enter the name of the file where to save defects ')
-defSizename = input('Please enter the name of the file where to save info (Size, coordinate of the center) about defects ')
+dir = input('Please enter the directory where to save files ') + '\_'
+defectsName = 'defects'
+defSizename = 'defsize'
 
 coordTname = input('Please enter the location of the file with Broke bonds ')
 coordT = pd.read_csv(coordTname, header=None)
@@ -39,6 +39,9 @@ def Get_defects_loop(coordT, Ftime, r, step, defSizename, defectsName):
         coordT = coordT[coordT[1] <= Ftime]
         time = 0
         Stats = {}
+        defectsdict = {}
+        defectsdictnopd = {}
+        defsizedict = {}
         while time <= Ftime:
             coordTi = coordT[coordT[1] <= time]
             #print (len(coordTi.index))
@@ -125,7 +128,9 @@ def Get_defects_loop(coordT, Ftime, r, step, defSizename, defectsName):
             defsdf.to_csv(dir + defSizename + str(Ftime)  + '_' + str(time) + '.csv')
             print('step_', time)
             time +=step
-
+            defectsdictnopd.update({time: defects})
+            defectsdict.update({time: defectsdf})
+            defsizedict.update({time: defsdf})
                 #3Dplot
             X = {}
             Y = {}
@@ -149,6 +154,9 @@ def Get_defects_loop(coordT, Ftime, r, step, defSizename, defectsName):
             for i in K:
                     sc = ax.scatter(X[i], Y[i], Z[i], s=r * 10)
             plt.show()
-
+        pickle.dump(defectsdict, open(dir + 'defectsdict.p', 'wb'))
+        pickle.dump(defectsdictnopd, open(dir + 'defects.p', 'wb'))
+        pickle.dump(defsizedict, open(dir + 'defsizedict.p', 'wb'))
         return defects
 defects = Get_defects_loop(coordT, Ftime, r, step, defSizename, defectsName)
+print ('end')

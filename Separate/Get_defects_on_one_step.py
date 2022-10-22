@@ -1,11 +1,11 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
-
-dir = input('Please enter the directory where to save files ')
-defectsName = input('Please enter the name of the file where to save defects ')
-defSizename = input('Please enter the name of the file where to save info (Size, coordinate of the center) about defects ')
+dir = input('Please enter the directory where to save files ') + '\_'
+defectsName = 'defects'
+defSizename = 'defsize'
 
 coordTname = input('Please enter the location of the file with Broke bonds ')
 coordT = pd.read_csv(coordTname, header=None)
@@ -87,9 +87,7 @@ for i in defects.keys():
     if len(defects[i]) >= 1000:
         df = pd.DataFrame(defects[i])
         df.to_csv(dir + i + '_' + str(Ftime) + '.csv')
-np.save(dir + defectsName + str(Ftime) + '.npy', defects)
 defectsdf = pd.DataFrame.from_dict(defects, orient='index')
-defectsdf.to_csv(dir + defectsName + str(Ftime) + '.csv')
 defectsdf.to_csv(dir + defectsName + str(Ftime) + '.csv')
 used = []
 Rad = {}
@@ -110,35 +108,12 @@ for i in defects.keys():
         Centerz = Centerz / num
 
         Rad.update({i: [Centerx, Centery, Centerz]})
-    # print (Rad)
 Defsize = {}
 for i in Rad.keys():
         Defsize.update({i: [len(defects[i]), Rad[i][0], Rad[i][1], Rad[i][2]]})
-    # print(Defsize)
-    # np.save("D:/MUSEN Materials/Musen export/" + defSizename + ".npy",Defsize)
 defsdf = pd.DataFrame.from_dict(Defsize,orient='index',columns=['Size','X','Y','Z'])
 defsdf.to_csv(dir + defSizename + str(Ftime) + '.csv')
-
+pickle.dump(defects, open(dir + 'defects.p', 'wb'))
+pickle.dump(defectsdf, open(dir + 'defectsdict.p', 'wb'))
+pickle.dump(defsdf, open(dir + 'defsizedict.p', 'wb'))
 print('end')
-X = {}
-Y = {}
-Z = {}
-for j in defects.keys():
-        # print(defects[j])
-        X.update({'x ' + j: []})
-        Y.update({'x ' + j: []})
-        Z.update({'x ' + j: []})
-        nu = 0
-        X['x ' + j].extend([i[1] for i in defects[j]])
-        Y['x ' + j].extend([i[2] for i in defects[j]])
-        Z['x ' + j].extend([i[3] for i in defects[j]])
-    # print (X)
-    # print (Y)
-    # print (Z)
-K = [i for i in X.keys()]
-fig = plt.figure(figsize=(10, 20))
-ax = fig.add_subplot(projection='3d')
-ax.set_box_aspect([1, 1, 2])
-for i in K:
-        sc = ax.scatter(X[i], Y[i], Z[i], s=r * 10)
-plt.show()
