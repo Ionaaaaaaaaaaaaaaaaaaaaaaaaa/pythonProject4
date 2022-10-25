@@ -6,8 +6,19 @@ from matplotlib import animation
 dir = input('Please enter the name of the directory ')
 coordTname = input('Please enter the path for coordT ')
 Defectsname = input('Please enter the path for defects')
-coordT = pd.read_csv(coordTname,header=None)
-coordT.drop([0],axis = 0,inplace = True)
+coordT = pd.read_csv(coordTname, header=None)
+coordT.drop([0], axis=0, inplace=True)
+coordT.set_index(0, drop=False, inplace=True)
+col1 = np.array([float(i) for i in coordT[5]])
+col2 = np.array([float(i) for i in coordT[2]])
+col3 = np.array([float(i) for i in coordT[3]])
+col4 = np.array([float(i) for i in coordT[4]])
+coordT[1] = col1
+coordT[2] = col2
+coordT[3] = col3
+coordT[4] = col4
+coordT.drop([5], axis=1, inplace=True)
+coordT.sort_values(by=1, ascending=True, inplace=True)
 
 defects = np.load(Defectsname,allow_pickle='True').item()
 key = input('Please enter the name of the defect ')
@@ -44,17 +55,17 @@ print(K)
 fig = plt.figure(figsize=(15,6))
 ax = p3.Axes3D(fig)
 ax.set_box_aspect([1,1,2])
-limits = [-0.01,0.01,-0.01,0.01]
+limits = [-10,10,-10,10]
 ax.axis(limits)
 x = [0, 0]
 y = [0, 0]
-z = [0.01, -0.01]
+z = [10, -10]
 
 points, = ax.plot(x, y, z, '.')
 def update_points(num, x, y, z, points):
-    x = [0, 0, -0.01, 0.01]
+    x = [0, 0, -10, 10]
     y = [0, 0, 0, 0]
-    z = [0.01, -0.01, 0 , 0 ]
+    z = [10, -10, 0 , 0 ]
     k = [i for i in coordT[1].unique()]
     j = k[num]
     x.extend([i[1] for i in defects[key] if coordT[1][i[0]] <= j])
@@ -67,6 +78,6 @@ def update_points(num, x, y, z, points):
     return points
 ani = animation.FuncAnimation(fig, update_points, frames=len(coordT[1].unique()), fargs=(x, y, z, points))
 
-ani.save(dir + Animationname + '.gif', writer='Pillow', fps=3)
+ani.save(dir + Animationname + '.gif', writer='Pillow', fps=30)
 
 plt.show()

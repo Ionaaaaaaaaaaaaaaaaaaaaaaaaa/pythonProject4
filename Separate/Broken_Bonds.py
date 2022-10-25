@@ -1,27 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
-dirL = input('Please enter the name of the directory ')
-bondsname = input('Please enter the filename for bonds ')
-partname = input('Please enter the filename for particles ')
-# partnamedf = input('Please enter the name of the file where to save partdf ')
-# bondnamedf = input('Please enter the name of the file where to save bonddf ')
-coordTcreate = input('Please enter the name of the file where to save info about broken bonds ')
-dir2 = input('Please enter the name of the directory where to save the file containing broken bonds ')
-xBor,zBor = input('Please enter the borders of the object separated by comma ').split(',')
-xBor = float(xBor)
-#yBor = float(yBor)
-zBor = float(zBor)
-dataparticles = pd.read_csv(dirL + partname + ".txt",sep=' ', header=None)
-data = pd.read_csv(dirL + bondsname + ".txt",sep=' ', header=None)
-data = data.drop([0, 2, 5, 6, 8], axis='columns')
-data.set_index(data[1], drop=True, inplace=True)
-dataparticles.set_index(dataparticles[1], drop=True, inplace=True)
-dataparticles = dataparticles.drop([0, 1], axis='columns')
-print(data, dataparticles)
-
-
 def parsingPart(datapart):
         p = {}
         for j in datapart.index:
@@ -60,7 +39,7 @@ def coordInfodf(data, datadf):
         return df,data,activ
 
 
-def Broken_bonds(bondcoord, data,activ):
+def Broken_bonds(bondcoord, data,activ,dir2,rBor,zBor,coordTcreate):
         bondcoord.dropna(axis=0, how='any', thresh=None, subset=None, inplace=True)
         print(bondcoord)
         data = data[data.index.isin(bondcoord.index)]
@@ -75,15 +54,38 @@ def Broken_bonds(bondcoord, data,activ):
         Finaldf['Timeact'] = np.array([activ[9][i] for i in bondcoord.index])
         print(Finaldf.columns)
         Finaldf.sort_values(by='Time', ascending=True, inplace=True)
-        Finaldf = Finaldf[((Finaldf['X']**2 + Finaldf['Y']**2)<=xBor**2)&(Finaldf['Z']<=zBor)]
+        Finaldf = Finaldf[((Finaldf['X']**2 + Finaldf['Y']**2)<=rBor**2)&(Finaldf['Z']<=zBor)]
         print(Finaldf)
         Finaldf.to_csv(dir2 + coordTcreate + '.csv')
         return Finaldf
 
+def start():
+    dirL = input('Please enter the name of the directory ')
+    bondsname = input('Please enter the filename for bonds ')
+    partname = input('Please enter the filename for particles ')
+    # partnamedf = input('Please enter the name of the file where to save partdf ')
+    # bondnamedf = input('Please enter the name of the file where to save bonddf ')
+    coordTcreate = input('Please enter the name of the file where to save info about broken bonds ')
+    dir2 = input('Please enter the name of the directory where to save the file containing broken bonds ')
+    rBor, zBor = input('Please enter the borders of the object separated by comma ').split(',')
+    rBor = float(rBor)
+    # yBor = float(yBor)
+    zBor = float(zBor)
+    dataparticles = pd.read_csv(dirL + partname + ".txt", sep=' ', header=None)
+    data = pd.read_csv(dirL + bondsname + ".txt", sep=' ', header=None)
+    data = data.drop([0, 2, 5, 6, 8], axis='columns')
+    data.set_index(data[1], drop=True, inplace=True)
+    dataparticles.set_index(dataparticles[1], drop=True, inplace=True)
+    dataparticles = dataparticles.drop([0, 1], axis='columns')
+    print(data, dataparticles)
 
-datapart = parsingPart(dataparticles)
-print(datapart)
-bondcoord,data,activ = coordInfodf(data, datapart)
 
-print(bondcoord)
-Final = Broken_bonds(bondcoord, data,activ)
+
+    datapart = parsingPart(dataparticles)
+    print(datapart)
+    bondcoord,data,activ = coordInfodf(data, datapart)
+
+    print(bondcoord)
+    Broken_bonds(bondcoord, data,activ,dir2,rBor,zBor,coordTcreate)
+    print('end')
+    input('Press any key ')

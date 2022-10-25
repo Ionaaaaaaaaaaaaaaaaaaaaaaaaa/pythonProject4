@@ -3,36 +3,7 @@ import numpy as np
 import pickle
 
 
-dir = input('Please enter the directory where to save files ') + '\_'
-defectsName = 'defects'
-defSizename = 'defsize'
-
-coordTname = input('Please enter the location of the file with Broken bonds ')
-coordT = pd.read_csv(coordTname, header=None)
-coordT.drop([0], axis=0, inplace=True)
-coordT.set_index(0, drop=False, inplace=True)
-
-col1 = np.array([float(i) for i in coordT[5]])
-col2 = np.array([float(i) for i in coordT[2]])
-col3 = np.array([float(i) for i in coordT[3]])
-col4 = np.array([float(i) for i in coordT[4]])
-coordT[1] = col1
-coordT[2] = col2
-coordT[3] = col3
-coordT[4] = col4
-coordT.drop([5], axis=1, inplace=True)
-coordT.sort_values(by=1, ascending=True, inplace=True)
-
-# coordT.drop([0], axis=0, inplace=True)
-# coordT.set_index(0, drop=False, inplace=True)
-# print(coordT)
-Ftime = float(input('Please enter the final step '))
-r = float(input('Please enter the max distance '))
-step = float(input('Please enter the clastering step '))
-step_save = float(input('Please enter the saving step '))
-
-
-def Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save):
+def Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save,dir):
         coordT = coordT[coordT[1] <= Ftime]
         time = 0
         time1 = 0
@@ -155,5 +126,37 @@ def Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save):
             continue
         pickle.dump(defectsdict, open(dir + 'defectsdict.p', 'wb'))
         pickle.dump(defsizedict, open(dir + 'defsizedict.p', 'wb'))
-defects = Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save)
-print('end')
+def start():
+    dir = input('Please enter the directory where to save files ') + '\_'
+    defectsName = 'defects'
+    defSizename = 'defsize'
+
+    coordTname = input('Please enter the location of the file with Broken bonds ')
+    coordT = pd.read_csv(coordTname, header=None)
+    coordT.drop([0], axis=0, inplace=True)
+    coordT.set_index(0, drop=False, inplace=True)
+
+    col1 = np.array([float(i) for i in coordT[5]])
+    col2 = np.array([float(i) for i in coordT[2]])
+    col3 = np.array([float(i) for i in coordT[3]])
+    col4 = np.array([float(i) for i in coordT[4]])
+    coordT[1] = col1
+    coordT[2] = col2
+    coordT[3] = col3
+    coordT[4] = col4
+    coordT.drop([5], axis=1, inplace=True)
+    coordT.sort_values(by=1, ascending=True, inplace=True)
+
+    # coordT.drop([0], axis=0, inplace=True)
+    # coordT.set_index(0, drop=False, inplace=True)
+    # print(coordT)
+    Ftime = float(input('Please enter the final step '))
+    r = float(input('Please enter the max distance '))
+    step = float(input('Please enter the clastering step '))
+    step_save = float(input('Please enter the saving step '))
+
+
+
+    Get_defects_loop(coordT, Ftime, r, defSizename, defectsName,step,step_save,dir)
+    print('end')
+    input('Press any key ')

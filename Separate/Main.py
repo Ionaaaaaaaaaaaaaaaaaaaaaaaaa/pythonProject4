@@ -1,24 +1,28 @@
+import Get_defects_on_one_step as Gd1
+import  Broken_Bonds as BB
+import Get_defects_on_multiple_steps as Gd2
+import Emission as EM
+import Emission_by_layers as embl
+import Analysis as An
 def launch ():
     print('If you want to create a file with broken bonds enter BB.','\n',
                      'To get defects on one step enter Gd1.','\n',
                      'To get defects on multiple steps enter Gd2.','\n',
                      'To get Emission enter em.','\n',
-                     'To get Emission by layers enter embl.')
-    LaunchChoice = input()
+                     'To get Emission by layers enter embl.','\n',
+          'To start Analysis enter An')
+    LaunchChoice = input('==>')
     LaunchChoice = LaunchChoice.lower()
     if LaunchChoice == 'bb':
-        import Broken_Bonds as BB
-        Launch = BB
+        BB.start()
     elif LaunchChoice == 'gd1':
-        import Get_defects_on_one_step as Gd1
-        Launch = Gd1
+        Gd1.start()
     elif LaunchChoice == 'gd2':
-        import Get_defects_on_multiple_steps as Gd2
-        Launch = Gd2
+        Gd2.start()
     elif LaunchChoice == 'em':
-        import Emission as em
-        Launch = em
+        EM.start()
     elif LaunchChoice == 'embl':
-        import Emission_by_layers as embl
-        Launch = embl
-Launch_programm = launch()
+        embl.start()
+    elif LaunchChoice == 'an':
+        An.launch()
+launch()
