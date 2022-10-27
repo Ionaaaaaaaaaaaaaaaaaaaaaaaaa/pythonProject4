@@ -31,6 +31,7 @@ def Analysis(dir2,defectsdict,defsizedict,Bord1,Bord2,plots):
         counts.index.name = 'Size'
         counts['N'] = counts['Size']
         counts.drop(['Size'], axis='columns', inplace=True)
+        counts.to_csv(dir2 + 'T_' + str(time) + '_Counts.csv')
         counts = counts[(counts.index >= Bord1) & (counts.index <= Bord2)]
         counts.to_csv(dir2 + '' + str(Bord1) + '-' + str(Bord2) + 'T_' + str(time) + '_Counts.csv')
         print('Counts_', time, counts)

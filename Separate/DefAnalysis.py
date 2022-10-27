@@ -30,6 +30,7 @@ def analysis(dir2,defects,defectsdf,defsdf,r,Bord1,Bord2,plots):
         counts['N'] = counts['Size']
         counts.drop(['Size'], axis='columns', inplace=True)
         print('Counts_', counts)
+        counts.to_csv(dir2 + 'Counts.csv')
         counts = counts[(counts.index >= Bord1) & (counts.index <= Bord2)]
         counts.to_csv(dir2 + '' + str(Bord1) + '-' + str(Bord2) + 'Counts.csv')
 
