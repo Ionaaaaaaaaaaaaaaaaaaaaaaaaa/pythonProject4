@@ -108,28 +108,6 @@ def Get_defects_loop(coordT, Ftime, r, step, defSizename, defectsName,dir):
             defectsdict.update({time: defectsdf})
             defsizedict.update({time: defsdf})
                 #3Dplot
-            X = {}
-            Y = {}
-            Z = {}
-            for j in defects.keys():
-                    # print(defects[j])
-                    X.update({'x ' + j: []})
-                    Y.update({'x ' + j: []})
-                    Z.update({'x ' + j: []})
-                    nu = 0
-                    X['x ' + j].extend([i[1] for i in defects[j]])
-                    Y['x ' + j].extend([i[2] for i in defects[j]])
-                    Z['x ' + j].extend([i[3] for i in defects[j]])
-                # print (X)
-                # print (Y)
-                # print (Z)
-            K = [i for i in X.keys()]
-            fig = plt.figure(figsize=(10, 20))
-            ax = fig.add_subplot(projection='3d')
-            ax.set_box_aspect([1, 1, 2])
-            for i in K:
-                    sc = ax.scatter(X[i], Y[i], Z[i], s=r * 10)
-            plt.show()
         pickle.dump(defectsdict, open(dir + 'defectsdict.p', 'wb'))
         pickle.dump(defectsdictnopd, open(dir + 'defects.p', 'wb'))
         pickle.dump(defsizedict, open(dir + 'defsizedict.p', 'wb'))
