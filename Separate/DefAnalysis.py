@@ -85,12 +85,12 @@ def analysis(dir2,defects,defectsdf,defsdf,r,Bord1,Bord2,plots):
 def start():
         dir = input('Please enter the directory where to get files ') + '\_'
         dir2 = input('Please enter the directory where to save files ') + '\_'
-        defects = pickle.load(open(dir + 'Altestdefects.p', 'rb'))
-        defectsdf = pickle.load(open(dir + 'Altestdefectsdict.p', 'rb'))
-        defsdf = pickle.load(open(dir + 'Altestdefsizedict.p', 'rb'))
+        defects = pickle.load(open(dir + 'defects.p', 'rb'))
+        defectsdf = pickle.load(open(dir + 'defectsdict.p', 'rb'))
+        defsdf = pickle.load(open(dir + 'defsizedict.p', 'rb'))
         r = float(input('Enter radius for points '))
-        Bord1 = int(input('Please enter the lower limit for the counts '))
-        Bord2 = int(input('Please enter the upper limit for the counts '))
+        Bord1 = float(input('Please enter the lower limit for the counts '))
+        Bord2 = float(input('Please enter the upper limit for the counts '))
         plots = input('To draw plots enter y, otherwise n')
         plots = plots.lower()
         analysis(dir2, defects, defectsdf, defsdf, r, Bord1, Bord2,plots)

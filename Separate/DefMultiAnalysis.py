@@ -80,8 +80,10 @@ def Analysis(dir2,defectsd,defectsdict,defsizedict,r,Bord1,Bord2,plots,plots3D):
             # except Exception:
             # pass
             Stats.update({time: [rsquared, rsquared2, max(index), sum(data)]})
-        else:
+        elif len(counts.index) >= 1:
             Stats.update({time: ['--', '--', max(counts.index), sum(counts['N'])]})
+        else:
+            Stats.update({time: ['--', '--', '--', '--']})
         if plots3D == 'y':
             X = {}
             Y = {}
@@ -118,8 +120,8 @@ def start():
     defectsdict = pickle.load(open(dir + 'defectsdict.p', 'rb'))
     defsizedict = pickle.load(open(dir + 'defsizedict.p', 'rb'))
     r = float(input('Enter radius for points '))
-    Bord1 = int(input('Please enter the lower limit for the counts '))
-    Bord2 = int(input('Please enter the upper limit for the counts '))
+    Bord1 = float(input('Please enter the lower limit for the counts '))
+    Bord2 = float(input('Please enter the upper limit for the counts '))
     plots = input('To draw plots enter y, otherwise n')
     plots3D = input('To draw 3Dplots enter y, otherwise n')
     plots = plots.lower()

@@ -24,7 +24,7 @@ def coordInfodf(data, datadf):
         l = int(f'{num:e}'.split('e')[-1])
         data[9] = round(data[9], abs(l))
         #data = data[data[9] <= col[len(col) - 1]]
-        data = data[data[9] <= col[len(col)]]
+        data = data[data[9] <= col[len(col)-1]]
         b = {}
         for i in data.index:
             t = {}
